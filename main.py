@@ -1,4 +1,3 @@
-from ast import If
 import asyncio
 import requests
 import aiohttp
