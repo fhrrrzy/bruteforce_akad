@@ -17,7 +17,7 @@ def requestlogin(password):
         "action" : "login",
     }
     payload["pwd"] = password
-    x = requests.post(url, data=payload, headers=header)
+    x = requests.post(url, data=payload, headers=header,verify=False)
     # print(x.url)
     if(x.url == "https://akad.unimed.ac.id/main.php"):
         return True
